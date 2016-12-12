@@ -1,28 +1,30 @@
 [![Build Status](https://travis-ci.org/SolaceSamples/solace-samples-java.svg?branch=master)](https://travis-ci.org/SolaceSamples/solace-samples-java)
 
-# Getting Started Examples
-## Solace Messaging API for Java (JCSMP)
+# Live Video Streaming over Solace (Broadcast Me) Samples
+## Overview
 
-These tutorials will get you up to speed and sending messages with Solace technology as quickly as possible. There are two ways you can get started:
+These samples (via JCSMP API illustrates how simple live video streaming over Solace can be achieved. 
 
-- If your company has Solace message routers deployed, contact your middleware team to obtain the host name or IP address of a Solace message router to test against, a username and password to access it, and a VPN in which you can produce and consume messages.
-- If you do not have access to a Solace message router, you will need to go through the “[Set up a VMR](http://docs.solace.com/Solace-VMR-Set-Up/Setting-Up-VMRs.htm)” tutorial to download and install the software.
+The following diagram illustrates the flow of live stram from the live streaming source to the receiving device:
 
-## Contents
+             UDP             SMF(UDP)          SMF(UDP)               UDP
+Live Source  ---> InputProxy ---------> Solace ---------> OutputProxy ---> Receiving device
+(ffmpeg)                                                                   (VLC)
 
-This repository contains code and matching tutorial walk throughs for five different basic Solace messaging patterns. For a nice introduction to the Solace API and associated tutorials, check out the [tutorials home page](https://solacesamples.github.io/solace-samples-java/).
+- The InputProxy expects and listens on a udp port for the live stream. It then encapsulate the udp packets into SMF as 
+bineary attachment and forward them to Solace on a topic.  Here a topic can be viewed as the 'channel name' where the 
+broadcaster is streaming the live video to. The delivery mode can be persistent or direct.
 
-See the individual tutorials for details:
+- ffmpeg can be used to broadcast live stream to an udp port using the mpegts transport protocol. An example command would be:
 
-- [Publish/Subscribe](https://solacesamples.github.io/solace-samples-java/publish-subscribe): Learn how to set up pub/sub messaging on a Solace VMR.
-- [Persistence](https://solacesamples.github.io/solace-samples-java/persistence-with-queues): Learn how to set up persistence for guaranteed delivery.
-- [Request/Reply](https://solacesamples.github.io/solace-samples-java/request-reply): Learn how to set up request/reply messaging.
-- [Confirmed Delivery](https://solacesamples.github.io/solace-samples-java/confirmed-delivery): Learn how to confirm that your messages are received by a Solace message router.
-- [Topic to Queue Mapping](https://solacesamples.github.io/solace-samples-java/topic-to-queue-mapping): Learn how to map existing topics to Solace queues.
+         ffmpeg -f video4linux2 -i /dev/video0 -b 900k -f mpegts udp://localhost:1235
 
-## Prerequisites
+- The OutputProxy establishes a temporary queue with a topic (i.e. stream channel) subscription.  It then read off messages 
+from its tempory queue and redirect the decapsulated UDP packet to the specified forwarding host and port.
 
-This tutorial requires the Solace Java API library. Download the Java API library to your computer from [here](http://dev.solace.com/downloads/).
+- Network stram viewing programes such as VLC can then be used to pick up the redirect live stream based on the forwarding 
+host and port specified by the OutputProxy.
+
 
 ## Build the Samples
 
@@ -31,50 +33,20 @@ Just clone and build. For example:
   1. clone this GitHub repository
   1. `./gradlew assemble`
 
+
 ## Running the Samples
 
 To try individual samples, build the project from source and then run samples like the following:
 
-    ./build/staged/bin/topicPublisher <msg_backbone_ip:port>
+    ./build/staged/bin/inputProxy <msg_backbone_ip:port> <message-vpn> <username> <topic> <persistent/direct> <udp port> <verbose/none>
 
-The individual tutorials linked above provide full details which can walk you through the samples, what they do, and how to correctly run them to explore Solace messaging.
+    ./build/staged/bin/outputProxy <msg_backbone_ip:port> <message-vpn> <username> <topic> <redirect_host_ip> <redirect_host_port> <verbose/none>
 
-## Exploring the Samples
-
-### Setting up your preferred IDE
-
-Using a modern Java IDE provides cool productivity features like auto-completion, on-the-fly compilation, assisted refactoring and debugging which can be useful when you're exploring the samples and even modifying the samples. Follow the steps below for your preferred IDE.
-
-#### Using Eclipse
-
-To generate Eclipse metadata (.classpath and .project files), do the following:
-
-    ./gradlew eclipse
-
-Once complete, you may then import the projects into Eclipse as usual:
-
- *File -> Import -> Existing projects into workspace*
-
-Browse to the *'solace-samples-java'* root directory. All projects should import
-free of errors.
-
-#### Using IntelliJ IDEA
-
-To generate IDEA metadata (.iml and .ipr files), do the following:
-
-    ./gradlew idea
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Authors
-
-See the list of [contributors](https://github.com/SolaceSamples/solace-samples-java/contributors) who participated in this project.
 
 ## License
 
 This project is licensed under the Apache License, Version 2.0. - See the [LICENSE](LICENSE) file for details.
+
 
 ## Resources
 
