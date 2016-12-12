@@ -7,9 +7,7 @@ These samples (via JCSMP API illustrates how simple live video streaming over So
 
 The following diagram illustrates the flow of live stram from the live streaming source to the receiving device:
 
-             UDP             SMF(UDP)          SMF(UDP)               UDP
-Live Source  ---> InputProxy ---------> Solace ---------> OutputProxy ---> Receiving device
-(ffmpeg)                                                                   (VLC)
+Live Source --(UDP)--> InputProxy --(SMF[UDP])--> Solace --(SMF[UDP])--> OutputProxy --(UDP) --> Receiving device
 
 - The InputProxy expects and listens on a udp port for the live stream. It then encapsulate the udp packets into SMF as 
 bineary attachment and forward them to Solace on a topic.  Here a topic can be viewed as the 'channel name' where the 
