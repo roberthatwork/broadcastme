@@ -15,13 +15,15 @@ broadcaster is streaming the live video to. The delivery mode can be persistent 
 
 - ffmpeg can be used to broadcast live stream to an udp port using the mpegts transport protocol. An example command would be:
 
-         ffmpeg -f video4linux2 -i /dev/video0 -b 900k -f mpegts udp://localhost:1235
+	ffmpeg -f video4linux2 -i /dev/video0 -b 900k -f mpegts udp://localhost:1235
 
-- The OutputProxy establishes a temporary queue with a topic (i.e. stream channel) subscription.  It then read off messages 
-from its tempory queue and redirect the decapsulated UDP packet to the specified forwarding host and port.
+- The OutputProxy creates a temporary queue with a topic (i.e. stream channel) subscription.  It then read off messages 
+from its temporary queue and redirect the decapsulated UDP packet to the specified forwarding host and port.
 
-- Network stram viewing programes such as VLC can then be used to pick up the redirect live stream based on the forwarding 
-host and port specified by the OutputProxy.
+- Network stream viewing programes such as VLC can then be used to pick up the redirected live stream based on the
+forwarding host and port specified by the OutputProxy.  For example, from VLC, open a network source to an URL such as:
+
+	udp://@127.0.0.1:1239
 
 
 ## Build the Samples
