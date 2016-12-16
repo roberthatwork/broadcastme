@@ -1,24 +1,23 @@
-[![Build Status](https://travis-ci.org/SolaceSamples/solace-samples-java.svg?branch=master)](https://travis-ci.org/SolaceSamples/solace-samples-java)
-
 # Live Video Streaming over Solace (Broadcast Me) Samples
 ## Overview
 
-These samples (via JCSMP API illustrates how simple live video streaming over Solace can be achieved. 
+This is project illustrates how you can easily stream live video using Solace. Specifically it uses the Solace Java API to connect and stream video over a Solace Message Router.
 
 The following diagram illustrates the flow of live stram from the live streaming source to the receiving device:
 
-Live Source --(UDP)--> InputProxy --(SMF[UDP])--> Solace --(SMF[UDP])--> OutputProxy --(UDP) --> Receiving device
+Live Source --(UDP)--> InputProxy --(SMF[UDP])--> Solace Message Router --(SMF[UDP])--> OutputProxy --(UDP) --> Receiving device
+
+Note: SMF stands for Solace Message Format and is the wireline message format used by the Solace Java API.
 
 - The InputProxy expects and listens on a udp port for the live stream. It then encapsulate the udp packets into SMF as 
-bineary attachment and forward them to Solace on a topic.  Here a topic can be viewed as the 'channel name' where the 
-broadcaster is streaming the live video to. The delivery mode can be persistent or direct.
+binary attachment and forwards them to the Solace Message Router on a topic.  In this scenario, a topic can be viewed as the 'channel name' where the broadcaster is streaming the live video to. The delivery mode can be persistent or direct.
 
 - ffmpeg can be used to broadcast live stream to an udp port using the mpegts transport protocol. An example command would be:
 
         ffmpeg -f video4linux2 -i /dev/video0 -b 900k -f mpegts udp://localhost:1235
 
-- The OutputProxy creates a temporary queue with a topic (i.e. stream channel) subscription.  It then read off messages 
-from its temporary queue and redirect the decapsulated UDP packet to the specified forwarding host and port.
+- The OutputProxy creates a temporary queue with a topic (i.e. stream channel) subscription.  It then receives messages 
+from its temporary queue and redirects the encapsulated UDP packet to the specified forwarding host and port.
 
 - Network stream viewing programes such as VLC can then be used to pick up the redirected live stream based on the
 forwarding host and port specified by the OutputProxy.  For example, from VLC, open a network source to an URL such as:
@@ -50,7 +49,7 @@ This project is licensed under the Apache License, Version 2.0. - See the [LICEN
 
 ## Resources
 
-For more information try these resources:
+If you want to learn more about Solace Technology try these resources:
 
 - The Solace Developer Portal website at: http://dev.solace.com
 - Get a better understanding of [Solace technology](http://dev.solace.com/tech/).
