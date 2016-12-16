@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package com.solace.broadcastme;
+package com.solace.demos.broadcastme;
 
 import com.solacesystems.jcsmp.BytesXMLMessage;
 import com.solacesystems.jcsmp.DeliveryMode;
@@ -123,7 +123,7 @@ public class InputProxy {
             System.exit(-1);
         }
 
-        InputProxy app = new InputProxy();
+        final InputProxy app = new InputProxy();
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {

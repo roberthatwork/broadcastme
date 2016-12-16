@@ -39,8 +39,8 @@ task createAllStartScripts() << {
      // just a placeholder
 }
   def scripts = [ 
-		 'outputProxy':'com.solace.broadcastme.OutputProxy',
-		 'inputProxy':'com.solace.broadcastme.InputProxy'
+		 'outputProxy':'com.solace.demos.broadcastme.OutputProxy',
+		 'inputProxy':'com.solace.demos.broadcastme.InputProxy'
 ]
   scripts.each() { scriptName, className ->
           def t = tasks.create(name: scriptName+'StartScript', type: CreateStartScripts) {

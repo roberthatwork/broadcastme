@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package com.solace.broadcastme;
+package com.solace.demos.broadcastme;
 
 import com.solacesystems.jcsmp.BytesXMLMessage;
 import com.solacesystems.jcsmp.ConsumerFlowProperties;
@@ -117,7 +117,7 @@ public class OutputProxy implements XMLMessageListener {
             System.exit(-1);
         }
 
-        OutputProxy app = new OutputProxy();
+        final OutputProxy app = new OutputProxy();
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
