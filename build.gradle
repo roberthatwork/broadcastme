@@ -14,14 +14,14 @@ run.enabled = false
 distTar.enabled=false
 distZip.enabled=false
 
-applicationName = 'solace-samples-java'
+applicationName = 'broadcastme'
 version = ''
 
 jar {
-	baseName = 'solace-samples-java'
+	baseName = 'broadcastme'
     version =  version
     manifest {
-        attributes 'Implementation-Title': 'Solace Getting Started Samples',
+        attributes 'Implementation-Title': 'Live Video Streaming using Solace Messaging',
                    'Implementation-Version': version
     }
 }
