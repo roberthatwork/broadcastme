@@ -5,7 +5,7 @@ This is project illustrates how you can easily stream live video using Solace. S
 
 The following diagram illustrates the flow of live stram from the live streaming source to the receiving device:
 
-(resources/Diagrams.png)
+!(resources/Diagrams.png)
 
 Note: SMF stands for Solace Message Format and is the wireline message format used by the Solace Java API.
 
