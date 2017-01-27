@@ -9,7 +9,7 @@ The following diagram shows the flow of video stream from the live source to the
 
 Note: SMF stands for Solace Message Format and is the wireline message format used by the Solace Java API.
 
-- The InputProxy expects and listens on an UDP port for the live stream. It then encapsulate the UDP packets into SMF as 
+- The InputProxy expects and listens on an UDP port for the live stream. It then encapsulate the content of UDP packets into SMF as 
 binary attachment and forwards them to the Solace Message Router on a topic.  In this scenario, a topic can be viewed as the 'channel name' where the broadcaster is streaming the live video to. The delivery mode can be persistent or direct.
 
 - ffmpeg can be used to broadcast live stream to an UDP port using the mpegts transport protocol. An example command (under linux) would be:
@@ -17,7 +17,7 @@ binary attachment and forwards them to the Solace Message Router on a topic.  In
         ffmpeg -f video4linux2 -i /dev/video0 -b 900k -f mpegts udp://localhost:1235
 
 - The OutputProxy creates a temporary queue with a topic (i.e. stream channel) subscription.  It then receives messages 
-from its temporary queue and redirects the encapsulated UDP packet to the specified forwarding host and port.
+from its temporary queue, re-encapsulates the content into UDP packets and redirect to the specified host and port.
 
 - Network stream viewing programes such as VLC can then be used to pick up the redirected live stream based on the
 forwarding host and port specified by the OutputProxy.  For example, from VLC, open a network source to an URL such as:
