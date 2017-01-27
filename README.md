@@ -1,18 +1,18 @@
-# Live Video Streaming over Solace (Broadcast Me) Samples
+# Live Video Streaming over Solace (BroadcastMe) Samples
 ## Overview
 
-This is project illustrates how you can easily stream live video using Solace. Specifically it uses the Solace Java API to connect and stream video over a Solace Message Router.
+This project illustrates how one can stream live video via Solace. 
 
-The following diagram illustrates the flow of live stram from the live streaming source to the receiving device:
+The following diagram shows the flow of video stream from the live source to the receiving device:
 
 ![](https://github.com/roberthsieh/broadcastme/blob/master/resources/Diagrams.png)
 
 Note: SMF stands for Solace Message Format and is the wireline message format used by the Solace Java API.
 
-- The InputProxy expects and listens on a udp port for the live stream. It then encapsulate the udp packets into SMF as 
+- The InputProxy expects and listens on an UDP port for the live stream. It then encapsulate the UDP packets into SMF as 
 binary attachment and forwards them to the Solace Message Router on a topic.  In this scenario, a topic can be viewed as the 'channel name' where the broadcaster is streaming the live video to. The delivery mode can be persistent or direct.
 
-- ffmpeg can be used to broadcast live stream to an udp port using the mpegts transport protocol. An example command (under linux) would be:
+- ffmpeg can be used to broadcast live stream to an UDP port using the mpegts transport protocol. An example command (under linux) would be:
 
         ffmpeg -f video4linux2 -i /dev/video0 -b 900k -f mpegts udp://localhost:1235
 

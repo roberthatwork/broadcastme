@@ -53,7 +53,7 @@ public class OutputProxy implements XMLMessageListener {
 	// Pass through msg content to UDP stream
 	DatagramPacket packet = new DatagramPacket(message.getAttachmentByteBuffer().array(), 
 						   message.getAttachmentContentLength(), address, port);
-	// Decapsulate and send to UDP
+	// Decapsulated and send to UDP
 	try {
 	    dsocket.send(packet);
 	} catch (Exception ex) {
