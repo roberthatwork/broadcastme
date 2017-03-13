@@ -1,7 +1,7 @@
 # Live Video Streaming over Solace (BroadcastMe) Samples
 ## Overview
 
-This project illustrates how one can stream live video via Solace. 
+This project illustrates how one can stream live video via Solace. Take a look also at the blog post [here](https://solace.com/blog/use-cases/live-video-streaming-solace-part-2).  
 
 The following diagram shows the flow of video stream from the live source to the receiving device:
 
